@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
 const session = require('express-session')
+const path = require('path')
 
 const app = express()
 const morgan = require('morgan')
@@ -30,12 +31,11 @@ app.use((req,res,next)=>{
     next()
 })
 
-//http://localhost:4000/
-app.get('/', (req, res) => {
-    return res.json({
-        message: "Homepage"
-    })
-})
+//set template engine
+app.use(express.static(path.join(__dirname,"node_modules/bootstrap/dist/")))
+app.set("view engine","ejs")
+
+app.use('',require('./routes/routes'))
 
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`)
